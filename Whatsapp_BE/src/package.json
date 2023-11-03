@@ -19,6 +19,8 @@
         "express-fileupload": "^1.4.2",
         "express-mongo-sanitize": "^2.2.0",
         "helmet": "^7.0.0",
-        "morgan": "^1.10.0"
+        "mongoose": "^8.0.0",
+        "morgan": "^1.10.0",
+        "trim-request": "^1.0.6"
     }
 }
