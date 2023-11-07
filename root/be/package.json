@@ -21,6 +21,7 @@
         "helmet": "^7.0.0",
         "mongoose": "^8.0.0",
         "morgan": "^1.10.0",
-        "trim-request": "^1.0.6"
+        "trim-request": "^1.0.6",
+        "winston": "^3.11.0"
     }
 }
