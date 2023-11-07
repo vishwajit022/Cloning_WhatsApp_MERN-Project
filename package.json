@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "http-errors": "^2.0.0",
-    "winston": "^3.11.0"
-  }
-}
