@@ -3,7 +3,8 @@ import createHttpError from "http-errors";
 import { createUser } from "../services/auth.service.js";
 import jwt from 'jsonwebtoken';
 import { generateToken } from "../services/token.service.js";
-import { sign } from "../services/token.util.js"
+import { sign } from "../services/token.util.js";
+import { signUser } from "../services/auth.service.js";
 
 const app = express();
 app.use(express.json());
@@ -65,6 +66,8 @@ export const register = async(req, res, next) => {
 export const login = async(req, res, next) => {
     try {
         // Your login logic goes here
+        const { email, password } = req.body;
+        const user = signUser(email, password);
 
         // Send a success response if needed
         res.status(200).json({ message: "User logged in successfully" });
@@ -78,6 +81,12 @@ export const login = async(req, res, next) => {
 export const logout = async(req, res, next) => {
     try {
         // Your logout logic goes here
+        res.clearCookie('refreshtoken', {
+            path: "api/v1/auth/refreshtoken",
+        });
+        res.json({
+            message: "You have been logged out!",
+        });
 
         // Send a success response if needed
         res.status(200).json({ message: "User logged out successfully" });

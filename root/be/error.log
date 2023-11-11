@@ -41,3 +41,6 @@
 {"level":"error","message":"Cannot set headers after they are sent to the client","timestamp":"2023-11-11T04:57:01.662Z"}
 {"level":"error","message":"Cannot set headers after they are sent to the client","timestamp":"2023-11-11T05:05:09.632Z"}
 {"level":"error","message":"Cannot set headers after they are sent to the client","timestamp":"2023-11-11T05:06:36.023Z"}
+{"level":"error","message":"signUser is not defined","timestamp":"2023-11-11T05:27:48.787Z"}
+{"level":"error","message":"Cannot set headers after they are sent to the client","timestamp":"2023-11-11T05:37:59.446Z"}
+{"level":"error","message":"Cannot set headers after they are sent to the client","timestamp":"2023-11-11T05:38:04.147Z"}
