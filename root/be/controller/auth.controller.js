@@ -1,18 +1,22 @@
 import express from "express";
 import createHttpError from "http-errors";
 import { createUser } from "../services/auth.service.js";
+import jwt from 'jsonwebtoken';
+import { generateToken } from "../services/token.service.js";
+import { sign } from "../services/token.util.js"
 
 const app = express();
 app.use(express.json());
 
 // Register a new user
+
 export const register = async(req, res, next) => {
     try {
         // Extract user data from the request body
         const { name, email, picture, status, password } = req.body;
 
         // Validate that all required fields are present
-        if (!name || !email || !picture || !status || !password) {
+        if (!name || !email || !password) {
             throw createHttpError.BadRequest("Please fill all fields.");
         }
 
@@ -24,7 +28,31 @@ export const register = async(req, res, next) => {
             status,
             password,
         });
+        const access_token = await generateToken({ userId: newUser._id }, "1d", process.env.ACCESS_TOKEN_SECRET);
+        const refresh_token = await generateToken({ userId: newUser._id }, "30d", process.env.REFRESH_TOKEN_SECRET);
 
+        res.cookie('refreshToken', refresh_token, {
+            httpOnly: true,
+            path: "api/v1/auth/refreshtoken",
+            maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
+
+        });
+        console.table({ access_token, refresh_token });
+        res.json({
+            message: 'register success.',
+            access_token,
+            user: {
+                name: newUser.name,
+                _id: newUser._id,
+                email: newUser.email,
+                picture: newUser.picture,
+                status: newUser.status,
+
+            }
+        });
+
+
+        res.json(newUser);
         // Send a success response with the created user information
         res.status(201).json({ message: "User created successfully", user: newUser });
     } catch (error) {
