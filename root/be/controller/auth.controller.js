@@ -2,7 +2,7 @@ import express from "express";
 import createHttpError from "http-errors";
 import { createUser } from "../services/auth.service.js";
 import jwt from 'jsonwebtoken';
-import { generateToken } from "../services/token.service.js";
+import { generateToken, verifyToken } from "../services/token.service.js";
 import { sign } from "../services/token.util.js";
 import { signUser } from "../services/auth.service.js";
 
@@ -43,11 +43,11 @@ export const register = async(req, res, next) => {
             message: 'register success.',
             access_token,
             user: {
-                name: newUser.name,
-                _id: newUser._id,
-                email: newUser.email,
-                picture: newUser.picture,
-                status: newUser.status,
+                name: user.name,
+                _id: user._id,
+                email: user.email,
+                picture: user.picture,
+                status: user.status,
 
             }
         });
@@ -100,13 +100,37 @@ export const logout = async(req, res, next) => {
 export const refreshToken = async(req, res, next) => {
     try {
         // Your token refresh logic goes here
+        const refresh_token = req.cookies.refreshtoken;
+        if (!refresh_token) throw createHttpError.Unauthorized("Please login.");
 
-        // Send a success response if needed
-        res.status(200).json({ message: "Token refreshed successfully" });
+        // Verify the refresh token
+        const check = await verifyToken(refresh_token, process.env.REFRESH_TOKEN_SECRET);
+
+        // Fetch the user details using the userId from the refresh token
+        const user = await findUser(check.userId);
+
+        // Generate a new access token
+        const access_token = await generateToken({
+            userId: user._id // Use user._id after fetching user details
+        }, "1d", process.env.ACCESS_TOKEN_SECRET);
+
+        // Send the response with the new access token and user details
+        res.json({
+            message: 'Refresh token success.',
+            access_token,
+            user: {
+                name: user.name,
+                _id: user._id,
+                email: user.email,
+                picture: user.picture,
+                status: user.status,
+            }
+        });
     } catch (error) {
         // Pass any errors to the error-handling middleware
         next(error);
     }
 };
+
 
 export default app;
