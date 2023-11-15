@@ -68,7 +68,7 @@ export const login = async(req, res, next) => {
         // Your login logic goes here
         const { email, password } = req.body;
         const user = signUser(email, password);
-
+        res.json(user);
         // Send a success response if needed
         res.status(200).json({ message: "User logged in successfully" });
     } catch (error) {
