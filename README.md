@@ -1,3 +1,3 @@
 <html>
-<img src= "https://www.shutterstock.com/shutterstock/photos/1042437928/display_1500/stock-vector-under-construction-industrial-sign-vector-illustration-1042437928.jpg">
+<img src= "https://t3.ftcdn.net/jpg/05/20/48/46/360_F_520484683_j4f2om7llvZD1aoL9HPZ2LmDeWWZoWK0.jpg">
 </html>
